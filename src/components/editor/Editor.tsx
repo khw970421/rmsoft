@@ -18,20 +18,36 @@ export default function Editor() {
 
   const onChange = (editorState: EditorState) => {
     const nodeMap = editorState._nodeMap
-    let isTitle = false,
-      isContent = false
-    Object.values([...nodeMap]).forEach((value) => {
-      const [, { __text, __type }] = value
-      if (__type === 'text') {
-        if (!isTitle) {
-          isTitle = true
-          setMemo((memo) => ({ ...memo, title: __text }))
-        } else if (!isContent) {
-          isContent = true
-          setMemo((memo) => ({ ...memo, content: __text }))
-        }
-      }
+
+    const [title, content] = Object.values([...nodeMap]).filter((value) => {
+      const [, { __type }] = value
+      return __type === 'text'
+    }).sort((a, b) => {
+      return a[1]?.__prev - b[1]?.__prev
     })
+
+    if (title) {
+      setMemo((memo) => ({ ...memo, title: title[1]?.__text }))
+    }
+    else {
+      setMemo((memo) => {
+        const newMemo = { ...memo }
+        delete newMemo.title
+        return newMemo
+      })
+    }
+    if (content) {
+      setMemo((memo) => ({ ...memo, content: content[1]?.__text }))
+    }
+    else {
+      setMemo((memo) => {
+        const newMemo = { ...memo }
+        delete newMemo.content
+        return newMemo
+      })
+    }
+    console.log(title, content)
+
     setMemo((memo) => ({ ...memo, date: getTime(new Date()) }))
   }
   console.log(memo)

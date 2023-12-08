@@ -19,7 +19,7 @@ const EMPTY_CONTENT =
 
 export default function EditorContainer({ focusedMemoId, memos, editMemos }: IEditorContainerProps) {
   const editorConfig = {
-    editorState: memos[focusedMemoId].content || EMPTY_CONTENT,
+    editorState: memos[focusedMemoId]?.content || EMPTY_CONTENT,
     namespace: 'MyEditor',
     theme,
     onError

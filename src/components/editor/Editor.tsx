@@ -7,6 +7,8 @@ import Placeholder from './Placeholder'
 import { IMemos } from '../../utils/types'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 
+const EMPTY_CONTENT =
+  '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 interface IEditorProps {
   focusedMemoId: number
   memos: IMemos[]
@@ -27,7 +29,7 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
     const editorState = editor.parseEditorState(
-      JSON.stringify(JSON.parse(memos[focusedMemoId]?.content))
+      JSON.stringify(JSON.parse(memos[focusedMemoId]?.content || EMPTY_CONTENT))
     );
     editor.setEditorState(editorState);
   }, [focusedMemoId])

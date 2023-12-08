@@ -22,7 +22,8 @@ const Notebooks = ({ focusedNotebook, savedNotebooks, focusNotebook, createNoteB
     setIsModalOpen(false)
   }
 
-  const handleRemoveNoteBooks = (notebook: string) => {
+  const handleRemoveNoteBooks = (e: React.MouseEvent<HTMLButtonElement>, notebook: string) => {
+    e.stopPropagation()
     removeNotebooks(notebook)
     focusNotebook(null)
   }
@@ -35,7 +36,7 @@ const Notebooks = ({ focusedNotebook, savedNotebooks, focusNotebook, createNoteB
     <div>
       {isModalOpen && <div><input ref={ref} /> <button onClick={handleCreateNoteBooks}>Create</button></div>}
       <div><span>NOTEBooks</span><button onClick={handleAddNoteBooks}>+</button></div>
-      {Object.keys(savedNotebooks).map((notebook, id) => <div key={`${notebook}-${id}`} onClick={() => handleOpenNotebook(notebook)} className={`${(notebook === focusedNotebook) && 'focus'}`}><span>{notebook}</span><button onClick={() => handleRemoveNoteBooks(notebook)} data-id={id}>-</button></div>)}
+      {Object.keys(savedNotebooks).map((notebook, id) => <div key={`${notebook}-${id}`} onClick={() => handleOpenNotebook(notebook)} className={`${(notebook === focusedNotebook) && 'focus'}`}><span>{notebook}</span><button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveNoteBooks(e, notebook)} data-id={id}>-</button></div>)}
     </div>
   );
 };

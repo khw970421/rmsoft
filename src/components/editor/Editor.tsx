@@ -5,20 +5,20 @@ import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
 import OnChangePlugin from './OnChangePlugin'
 import Placeholder from './Placeholder'
 
-interface IMemo {
-  title?: string
+interface IEditorProps {
+  editMemos: ({ title, content }: { title: string, content: string }) => void
 }
 
-export default function Editor() {
-  const [memo, setMemo] = useState<IMemo | null>(null)
+export default function Editor({ editMemos }: IEditorProps) {
   const onChange = (editorState: any) => {
     const { root } = editorState.toJSON();
     const nodes = root.children[0].children
     const titleIndex = nodes.findIndex(({ type }: { type: string }) => type === 'text')
-    if (nodes[titleIndex]?.text)
-      setMemo({ title: nodes[titleIndex]?.text })
+
+    if (nodes[titleIndex]?.text) {
+      editMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(root) })
+    }
   }
-  console.log(memo)
   return (
     <div className="editor-container">
       <PlainTextPlugin

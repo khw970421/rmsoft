@@ -15,14 +15,20 @@ const Memos = ({ focusedMemoId, focusedNotebook, memos, addMemo, removeMemo, han
   const handleAddMemo = () => {
     addMemo()
   }
-  const handleRemoveMemo = (removeId: number) => {
+  const handleRemoveMemo = (e: React.MouseEvent<HTMLButtonElement>, removeId: number) => {
+    e.stopPropagation()
     removeMemo(removeId)
   }
-
   return (
     <div>
       <div><span>{focusedNotebook}</span><button onClick={handleAddMemo}>New Note</button></div>
-      {memos && memos.map(({ title }, id) => <Memo title={title || undefined} key={`${title}-${id}`} id={id} handleChangeFocusedMemoId={handleChangeFocusedMemoId} handleRemoveMemo={() => handleRemoveMemo(id)} className={`${(focusedMemoId === id) && 'focus'}`}/>)}
+      {memos && memos.map(({ title }, id) =>
+        <Memo
+          title={title || undefined}
+          key={`${title}-${id}`} id={id}
+          handleChangeFocusedMemoId={handleChangeFocusedMemoId}
+          handleRemoveMemo={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveMemo(e, id)}
+          className={`${(focusedMemoId === id) && 'focus'}`} />)}
     </div>
   );
 };

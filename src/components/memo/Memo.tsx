@@ -3,7 +3,7 @@ interface IMemoProps {
   id: number
   className: string
   handleChangeFocusedMemoId: (id: number) => void
-  handleRemoveMemo: () => void
+  handleRemoveMemo: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
 const Memo = ({ title, id, className, handleChangeFocusedMemoId, handleRemoveMemo }: IMemoProps) => {

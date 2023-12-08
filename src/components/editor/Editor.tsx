@@ -32,7 +32,7 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
       JSON.stringify(JSON.parse(memos[focusedMemoId]?.content || EMPTY_CONTENT))
     );
     editor.setEditorState(editorState);
-  }, [focusedMemoId])
+  }, [focusedMemoId, memos])
 
   return (
     <div className="editor-container">

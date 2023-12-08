@@ -2,6 +2,7 @@ import { IMemos } from '../../utils/types';
 import Memo from './Memo';
 
 interface IMemosProps {
+  focusedMemoId: number
   focusedNotebook: string
   memos: IMemos[]
   addMemo: () => void
@@ -10,7 +11,7 @@ interface IMemosProps {
 }
 
 
-const Memos = ({ focusedNotebook, memos, addMemo, removeMemo, handleChangeFocusedMemoId }: IMemosProps) => {
+const Memos = ({ focusedMemoId, focusedNotebook, memos, addMemo, removeMemo, handleChangeFocusedMemoId }: IMemosProps) => {
   const handleAddMemo = () => {
     addMemo()
   }
@@ -21,7 +22,7 @@ const Memos = ({ focusedNotebook, memos, addMemo, removeMemo, handleChangeFocuse
   return (
     <div>
       <div><span>{focusedNotebook}</span><button onClick={handleAddMemo}>New Note</button></div>
-      {memos && memos.map(({ title }, id) => <Memo title={title || undefined} key={`${title}-${id}`} id={id} handleChangeFocusedMemoId={handleChangeFocusedMemoId} handleRemoveMemo={() => handleRemoveMemo(id)} />)}
+      {memos && memos.map(({ title }, id) => <Memo title={title || undefined} key={`${title}-${id}`} id={id} handleChangeFocusedMemoId={handleChangeFocusedMemoId} handleRemoveMemo={() => handleRemoveMemo(id)} className={`${(focusedMemoId === id) && 'focus'}`}/>)}
     </div>
   );
 };

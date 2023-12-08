@@ -2,7 +2,7 @@ import { IMemos } from '../../utils/types';
 import Memo from './Memo';
 
 interface IMemosProps {
-  focusedMemoId: number
+  focusedMemoId: number | null
   focusedNotebook: string
   memos: IMemos[]
   addMemo: () => void

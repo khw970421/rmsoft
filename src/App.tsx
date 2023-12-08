@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import Notebooks from './components/notebooks/Notebooks'
+import Memo from './components/memo/Memos'
 
 function App() {
   const [focusedNotebook, setFocusedNotebook] = useState<string | null>(null)
@@ -11,6 +12,7 @@ function App() {
   return (
     <>
       <Notebooks focusNotebook={focusNotebook} />
+      <Memo focusedNotebook={focusedNotebook} />
     </>
   )
 }

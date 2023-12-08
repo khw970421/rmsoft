@@ -1,21 +1,20 @@
-import { useState } from 'react';
+import { IMemos } from '../../utils/types';
 import Memo from './Memo';
 
 interface IMemosProps {
-  focusedNotebook: string | null
+  focusedNotebook: string
+  memos: IMemos[]
+  addMemo: () => void
+  removeMemo: (removeId: number) => void
 }
 
-interface IMemo {
-  title?: string
-}
 
-const Memos = ({ focusedNotebook }: IMemosProps) => {
-  const [memos, setMemos] = useState<IMemo[] | null>(null)
+const Memos = ({ focusedNotebook, memos, addMemo, removeMemo }: IMemosProps) => {
   const handleAddMemo = () => {
-    setMemos(memos => memos ? [{}, ...memos] : [{}])
+    addMemo()
   }
-  const handleRemoveMemo = (memoId: number) => {
-    setMemos(memos => memos?.filter((_, id) => id !== memoId) || [])
+  const handleRemoveMemo = (removeId: number) => {
+    removeMemo(removeId)
   }
 
   return (

@@ -26,7 +26,7 @@ export default function EditorContainer({ focusedMemoId, memos, editMemos }: IEd
   }
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      <Editor editMemos={editMemos} />
+      <Editor editMemos={editMemos} focusedMemoId={focusedMemoId} memos={memos} />
     </LexicalComposer>
   )
 }

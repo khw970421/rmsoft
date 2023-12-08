@@ -1,3 +1,7 @@
 export interface ISavedNotebooks {
-  [key: string]: { title?: string, content?: string }[]
+  [key: string]: IMemos[]
+}
+
+export interface IMemos {
+  title?: string, content?: string
 }

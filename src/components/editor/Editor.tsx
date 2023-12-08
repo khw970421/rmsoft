@@ -16,9 +16,7 @@ interface IEditorProps {
 export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps) {
   const [editor] = useLexicalComposerContext();
   useEffect(() => {
-    const editorState = editor.parseEditorState(
-      JSON.stringify(JSON.parse(memos[focusedMemoId]?.content || EMPTY_CONTENT))
-    );
+    const editorState = editor.parseEditorState(memos[focusedMemoId]?.content || EMPTY_CONTENT)
     editor.setEditorState(editorState);
   }, [focusedMemoId, memos])
 

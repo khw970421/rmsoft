@@ -1,6 +1,7 @@
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import Editor from './Editor'
 import { IMemos } from '../../utils/types'
+import { EMPTY_CONTENT } from '../../utils/constants'
 
 const theme = {}
 
@@ -13,9 +14,6 @@ interface IEditorContainerProps {
   memos: IMemos[]
   editMemos: ({ title, content }: { title: string, content: string }) => void
 }
-
-const EMPTY_CONTENT =
-  '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
 
 export default function EditorContainer({ focusedMemoId, memos, editMemos }: IEditorContainerProps) {
   const editorConfig = {

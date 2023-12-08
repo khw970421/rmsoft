@@ -6,9 +6,7 @@ import OnChangePlugin from './OnChangePlugin'
 import Placeholder from './Placeholder'
 import { IMemos } from '../../utils/types'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-
-const EMPTY_CONTENT =
-  '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
+import { EMPTY_CONTENT } from '../../utils/constants'
 interface IEditorProps {
   focusedMemoId: number
   memos: IMemos[]
@@ -16,6 +14,14 @@ interface IEditorProps {
 }
 
 export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps) {
+  const [editor] = useLexicalComposerContext();
+  useEffect(() => {
+    const editorState = editor.parseEditorState(
+      JSON.stringify(JSON.parse(memos[focusedMemoId]?.content || EMPTY_CONTENT))
+    );
+    editor.setEditorState(editorState);
+  }, [focusedMemoId, memos])
+
   const onChange = (editorState: any) => {
     const { root } = editorState.toJSON();
     const nodes = root.children[0].children
@@ -25,14 +31,6 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
       editMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
     }
   }
-
-  const [editor] = useLexicalComposerContext();
-  useEffect(() => {
-    const editorState = editor.parseEditorState(
-      JSON.stringify(JSON.parse(memos[focusedMemoId]?.content || EMPTY_CONTENT))
-    );
-    editor.setEditorState(editorState);
-  }, [focusedMemoId, memos])
 
   return (
     <div className="editor-container">

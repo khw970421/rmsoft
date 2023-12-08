@@ -1,16 +1,15 @@
 interface IMemoProps {
   title: string | undefined
-  id: number
   className: string
-  handleChangeFocusedMemoId: (id: number) => void
+  handleChangeFocusedMemoId: (e: React.MouseEvent<HTMLDivElement>) => void
   handleRemoveMemo: (e: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const Memo = ({ title, id, className, handleChangeFocusedMemoId, handleRemoveMemo }: IMemoProps) => {
+const Memo = ({ title, className, handleChangeFocusedMemoId, handleRemoveMemo }: IMemoProps) => {
   return (
-    <div onClick={() => handleChangeFocusedMemoId(id)} className={className}>
+    <div onClick={handleChangeFocusedMemoId} className={className}>
       {title ? title : 'New Note'}
-      <button onClick={handleRemoveMemo} data-id={id}>-</button>
+      <button onClick={handleRemoveMemo}>-</button>
     </div>
   );
 };

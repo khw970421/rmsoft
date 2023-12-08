@@ -16,7 +16,8 @@ function App() {
   const [savedNotebooks, setSavedNotebooks] = useState<ISavedNotebooks>(dummy_data)
   const [focusedNotebook, setFocusedNotebook] = useState<string | null>(null)
   const [focusedMemoId, setFocusedMemoId] = useState<number | null>(null)
-  console.log(savedNotebooks)
+
+  // Notebooks Events
   const focusNotebook = (notebook: string | null) => {
     setFocusedNotebook(notebook)
     if (notebook)
@@ -36,6 +37,8 @@ function App() {
       return newSavedNotebooks
     })
   }
+
+  // Memo Events
   const addMemo = () => {
     const newSavedNotebooks = { ...savedNotebooks }
     if (focusedNotebook)
@@ -54,8 +57,8 @@ function App() {
 
     setSavedNotebooks(newSavedNotebooks)
   }
-  const handleChangeFocusedMemoId = (focusedId: number) => {
-    setFocusedMemoId(focusedId)
+  const changeFocusedMemoId = (focusedMemoId: number) => {
+    setFocusedMemoId(focusedMemoId)
   }
   const editMemos = ({ title, content }: { title: string, content: string }) => {
     const newSavedNotebooks = { ...savedNotebooks }
@@ -63,6 +66,7 @@ function App() {
       newSavedNotebooks[focusedNotebook][focusedMemoId] = { title, content }
     setSavedNotebooks(newSavedNotebooks)
   }
+
   return (
     <>
       <Notebooks focusedNotebook={focusedNotebook} focusNotebook={focusNotebook} savedNotebooks={savedNotebooks} createNoteBooks={createNoteBooks} removeNotebooks={removeNotebooks} />
@@ -72,7 +76,7 @@ function App() {
       <br />
       <br />
       {focusedNotebook &&
-        <Memos focusedMemoId={focusedMemoId} focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} handleChangeFocusedMemoId={handleChangeFocusedMemoId} />}
+        <Memos focusedMemoId={focusedMemoId} focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} changeFocusedMemoId={changeFocusedMemoId} />}
       <br />
       <br />
       <br />

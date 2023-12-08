@@ -14,10 +14,13 @@ const dummy_data = {
 function App() {
   const [savedNotebooks, setSavedNotebooks] = useState<ISavedNotebooks>(dummy_data)
   const [focusedNotebook, setFocusedNotebook] = useState<string | null>(null)
+  const [focusedMemoId, setFocusedMemoId] = useState<number | null>(null)
+
   const focusNotebook = (notebook: string | null) => {
     setFocusedNotebook(notebook)
+    if (notebook)
+      setFocusedMemoId(savedNotebooks[notebook] ? 0 : null)
   }
-  console.log(focusedNotebook)
   const createNoteBooks = (notebook: string) => {
     if (savedNotebooks[notebook]) {
       alert(`The name ${notebook} is alerady taken. Please choose a different name.`)
@@ -44,6 +47,9 @@ function App() {
       newSavedNotebooks[focusedNotebook] = newSavedNotebooks[focusedNotebook].filter((_, id) => id !== removeId)
     setSavedNotebooks(newSavedNotebooks)
   }
+  const handleChangeFocusedMemoId = (focusedId: number) => {
+    setFocusedMemoId(focusedId)
+  }
 
   return (
     <>
@@ -53,9 +59,11 @@ function App() {
       <br />
       <br />
       <br />
-      <EditorContainer>
-        {focusedNotebook && <Memos focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} />}
-      </EditorContainer>
+      {focusedNotebook && focusedMemoId !== null &&
+        <EditorContainer focusedMemoId={focusedMemoId} memos={savedNotebooks[focusedMemoId]}>
+          <Memos focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} handleChangeFocusedMemoId={handleChangeFocusedMemoId} />
+        </EditorContainer>
+      }
     </>
   )
 }

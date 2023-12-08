@@ -38,7 +38,8 @@ function App() {
   const addMemo = () => {
     const newSavedNotebooks = { ...savedNotebooks }
     if (focusedNotebook)
-      newSavedNotebooks[focusedNotebook] = [...newSavedNotebooks[focusedNotebook],]
+      newSavedNotebooks[focusedNotebook] = [{}, ...newSavedNotebooks[focusedNotebook]]
+    setFocusedMemoId(0)
     setSavedNotebooks(newSavedNotebooks)
   }
   const removeMemo = (removeId: number) => {
@@ -50,7 +51,13 @@ function App() {
   const handleChangeFocusedMemoId = (focusedId: number) => {
     setFocusedMemoId(focusedId)
   }
-
+  const editMemos = ({ title, content }: { title: string, content: string }) => {
+    const newSavedNotebooks = { ...savedNotebooks }
+    if (focusedNotebook && focusedMemoId !== null)
+      newSavedNotebooks[focusedNotebook][focusedMemoId] = { title, content }
+    setSavedNotebooks(newSavedNotebooks)
+  }
+  console.log(focusedNotebook, focusedMemoId)
   return (
     <>
       <Notebooks focusNotebook={focusNotebook} savedNotebooks={savedNotebooks} createNoteBooks={createNoteBooks} removeNotebooks={removeNotebooks} />
@@ -59,11 +66,12 @@ function App() {
       <br />
       <br />
       <br />
-      {focusedNotebook && focusedMemoId !== null &&
-        <EditorContainer focusedMemoId={focusedMemoId} memos={savedNotebooks[focusedMemoId]}>
-          <Memos focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} handleChangeFocusedMemoId={handleChangeFocusedMemoId} />
-        </EditorContainer>
-      }
+      {focusedNotebook &&
+        <Memos focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} handleChangeFocusedMemoId={handleChangeFocusedMemoId} />}
+      <br />
+      <br />
+      <br />
+      {focusedMemoId !== null && focusedNotebook && <EditorContainer focusedMemoId={focusedMemoId} memos={savedNotebooks[focusedNotebook]} editMemos={editMemos} />}
     </>
   )
 }

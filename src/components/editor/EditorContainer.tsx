@@ -9,21 +9,24 @@ function onError(error: Error): void {
 }
 
 interface IEditorContainerProps {
-  children: React.ReactElement
   focusedMemoId: number
   memos: IMemos[]
+  editMemos: ({ title, content }: { title: string, content: string }) => void
 }
 
-export default function EditorContainer({ children, focusedMemoId, memos }: IEditorContainerProps) {
+const EMPTY_CONTENT =
+  '{"root":{"children":[{"children":[],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}';
+
+export default function EditorContainer({ focusedMemoId, memos, editMemos }: IEditorContainerProps) {
   const editorConfig = {
+    editorState: memos[focusedMemoId]?.content || EMPTY_CONTENT,
     namespace: 'MyEditor',
     theme,
     onError
   }
   return (
     <LexicalComposer initialConfig={editorConfig}>
-      {children}
-      <Editor />
+      <Editor editMemos={editMemos} focusedMemoId={focusedMemoId} memos={memos} />
     </LexicalComposer>
   )
 }

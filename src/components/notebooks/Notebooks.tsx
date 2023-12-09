@@ -35,8 +35,8 @@ const Notebooks = ({ focusedNotebook, savedNotebooks, focusNotebook, createNoteB
   return (
     <div>
       {isModalOpen && <div><input ref={ref} /> <button onClick={handleCreateNoteBooks}>Create</button></div>}
-      <div><span>NOTEBooks</span><button onClick={handleAddNoteBooks}>+</button></div>
-      {Object.keys(savedNotebooks).map((notebook, id) => <div key={`${notebook}-${id}`} onClick={() => handleOpenNotebook(notebook)} className={`${(notebook === focusedNotebook) && 'focus'}`}><span>{notebook}</span><button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveNoteBooks(e, notebook)} data-id={id}>-</button></div>)}
+      <div><p className="notebook-title">NOTEBooks</p><button onClick={handleAddNoteBooks} className="notebook-addBtn">+</button></div>
+      {Object.keys(savedNotebooks).map((notebook, id) => <div key={`${notebook}-${id}`} onClick={() => handleOpenNotebook(notebook)} className={`${(notebook === focusedNotebook) && 'focus'}`}><p>{notebook}</p><button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveNoteBooks(e, notebook)} data-id={id}>-</button></div>)}
     </div>
   );
 };

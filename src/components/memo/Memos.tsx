@@ -25,7 +25,7 @@ const Memos = ({ focusedMemoId, focusedNotebook, memos, addMemo, removeMemo, cha
   }
   return (
     <div>
-      <div><span>{focusedNotebook}</span><button onClick={handleAddMemo}>New Note</button></div>
+      <div><p className='memo-title'>{focusedNotebook}</p><button onClick={handleAddMemo} className='memo-addBtn'>New Note</button></div>
       {memos && memos.map(({ title }, id) =>
         <Memo
           title={title || undefined}

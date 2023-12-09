@@ -78,20 +78,12 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app-container">
       <Notebooks focusedNotebook={focusedNotebook} focusNotebook={focusNotebook} savedNotebooks={savedNotebooks} createNoteBooks={createNoteBooks} removeNotebooks={removeNotebooks} />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       {focusedNotebook &&
         <Memos focusedMemoId={focusedMemoId} focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} changeFocusedMemoId={changeFocusedMemoId} />}
-      <br />
-      <br />
-      <br />
       {focusedMemoId !== null && focusedNotebook && <EditorContainer focusedMemoId={focusedMemoId} memos={savedNotebooks[focusedNotebook]} editMemos={editMemos} />}
-    </>
+    </div>
   )
 }
 

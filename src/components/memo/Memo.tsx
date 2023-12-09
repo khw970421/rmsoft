@@ -1,3 +1,5 @@
+import TextEllipsis from "./TextEllipsis";
+
 interface IMemoProps {
   title: string | undefined
   className: string
@@ -8,7 +10,7 @@ interface IMemoProps {
 const Memo = ({ title, className, handleChangeFocusedMemoId, handleRemoveMemo }: IMemoProps) => {
   return (
     <div onClick={handleChangeFocusedMemoId} className={className}>
-      {title ? title : 'New Note'}
+      <TextEllipsis text={title ? title : 'New Note'} />
       <button onClick={handleRemoveMemo}>-</button>
     </div>
   );

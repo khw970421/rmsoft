@@ -4,6 +4,7 @@ import Notebooks from './components/notebooks/Notebooks'
 import EditorContainer from './components/editor/EditorContainer'
 import { ISavedNotebooks } from './utils/types'
 import Memos from './components/memo/Memos'
+import { getItem, setItem } from './utils/localStorage'
 
 const dummy_data = {
   '1': [{ title: 'update1', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update1","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }, { title: 'update2', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }],
@@ -13,7 +14,7 @@ const dummy_data = {
 
 
 function App() {
-  const [savedNotebooks, setSavedNotebooks] = useState<ISavedNotebooks>(dummy_data)
+  const [savedNotebooks, setSavedNotebooks] = useState<ISavedNotebooks>(getItem('notebooks') || {})
   const [focusedNotebook, setFocusedNotebook] = useState<string | null>(null)
   const [focusedMemoId, setFocusedMemoId] = useState<number | null>(null)
 
@@ -28,12 +29,18 @@ function App() {
       alert(`The name ${notebook} is alerady taken. Please choose a different name.`)
       return
     }
-    setSavedNotebooks((savedNotebooks) => ({ ...savedNotebooks, [notebook]: [] }))
+    setSavedNotebooks((savedNotebooks) => {
+      const newSavedNotebooks = { ...savedNotebooks, [notebook]: [] }
+      setItem('notebooks', newSavedNotebooks)
+      return newSavedNotebooks
+    })
+
   }
   const removeNotebooks = (notebook: string) => {
     setSavedNotebooks((savedNotebooks) => {
       const newSavedNotebooks = { ...savedNotebooks }
       delete newSavedNotebooks[notebook]
+      setItem('notebooks', newSavedNotebooks)
       return newSavedNotebooks
     })
   }
@@ -45,6 +52,7 @@ function App() {
       newSavedNotebooks[focusedNotebook] = [{}, ...newSavedNotebooks[focusedNotebook]]
     setFocusedMemoId(0)
     setSavedNotebooks(newSavedNotebooks)
+    setItem('notebooks', newSavedNotebooks)
   }
   const removeMemo = (removeId: number) => {
     const newSavedNotebooks = { ...savedNotebooks }
@@ -56,6 +64,7 @@ function App() {
     }
 
     setSavedNotebooks(newSavedNotebooks)
+    setItem('notebooks', newSavedNotebooks)
   }
   const changeFocusedMemoId = (focusedMemoId: number) => {
     setFocusedMemoId(focusedMemoId)
@@ -65,6 +74,7 @@ function App() {
     if (focusedNotebook && focusedMemoId !== null)
       newSavedNotebooks[focusedNotebook][focusedMemoId] = { title, content }
     setSavedNotebooks(newSavedNotebooks)
+    setItem('notebooks', newSavedNotebooks)
   }
 
   return (

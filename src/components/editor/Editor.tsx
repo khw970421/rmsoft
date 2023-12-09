@@ -7,6 +7,7 @@ import Placeholder from './Placeholder'
 import { IMemos } from '../../utils/types'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { EMPTY_CONTENT } from '../../utils/constants'
+import { EditorState } from 'lexical'
 interface IEditorProps {
   focusedMemoId: number
   memos: IMemos[]
@@ -20,9 +21,9 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
     editor.setEditorState(editorState);
   }, [focusedMemoId, memos])
 
-  const onChange = (editorState: any) => {
-    const { root } = editorState.toJSON();
-    const nodes = root.children[0].children
+  const onChange = (editorState: EditorState) => {
+    const childJSON = editorState.toJSON().root.children[0] as unknown as { children: [{ text: string, type: string }] }
+    const nodes = childJSON.children
     const titleIndex = nodes.findIndex(({ type }: { type: string }) => type === 'text')
 
     if (nodes[titleIndex]?.text) {

@@ -6,13 +6,6 @@ import { ISavedNotebooks } from './utils/types'
 import Memos from './components/memo/Memos'
 import { getItem, setItem } from './utils/localStorage'
 
-const dummy_data = {
-  '1': [{ title: 'update1', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update1","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }, { title: 'update2', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }],
-  '2': [{ title: 'update1', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update1","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }, { title: 'update2', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }],
-  '3': [{ title: 'update1', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update1","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }, { title: 'update2', content: '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"update2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}' }],
-}
-
-
 function App() {
   const [savedNotebooks, setSavedNotebooks] = useState<ISavedNotebooks>(getItem('notebooks') || {})
   const [focusedNotebook, setFocusedNotebook] = useState<string | null>(null)
@@ -69,6 +62,8 @@ function App() {
   const changeFocusedMemoId = (focusedMemoId: number) => {
     setFocusedMemoId(focusedMemoId)
   }
+
+  // Editor Events
   const editMemos = ({ title, content }: { title: string, content: string }) => {
     const newSavedNotebooks = { ...savedNotebooks }
     if (focusedNotebook && focusedMemoId !== null)

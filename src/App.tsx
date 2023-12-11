@@ -14,8 +14,10 @@ function App() {
   // Notebooks Events
   const focusNotebook = (notebook: string | null) => {
     setFocusedNotebook(notebook)
-    if (notebook)
-      setFocusedMemoId(savedNotebooks[notebook] ? 0 : null)
+    if (notebook && !!savedNotebooks[notebook].length)
+      setFocusedMemoId(0)
+    else
+      setFocusedMemoId(null)
   }
   const createNoteBooks = (notebook: string) => {
     if (savedNotebooks[notebook]) {

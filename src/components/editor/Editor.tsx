@@ -8,6 +8,7 @@ import { IMemos } from '../../utils/types'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { EMPTY_CONTENT } from '../../utils/constants'
 import { EditorState } from 'lexical'
+import debounce from '../../utils/debounce'
 interface IEditorProps {
   focusedMemoId: number
   memos: IMemos[]
@@ -21,13 +22,14 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
     editor.setEditorState(editorState);
   }, [focusedMemoId, memos])
 
+  const debounceEditMemos = debounce(editMemos)
   const onChange = (editorState: EditorState) => {
     const childJSON = editorState.toJSON().root.children[0] as unknown as { children: [{ text: string, type: string }] }
     const nodes = childJSON.children
     const titleIndex = nodes.findIndex(({ type }: { type: string }) => type === 'text')
 
     if (nodes[titleIndex]?.text) {
-      editMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
+      debounceEditMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
     }
   }
 

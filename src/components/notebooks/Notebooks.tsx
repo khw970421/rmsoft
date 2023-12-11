@@ -33,9 +33,9 @@ const Notebooks = ({ focusedNotebook, savedNotebooks, focusNotebook, createNoteB
   }
 
   return (
-    <div>
+    <div className="notebooks-wrapper">
       {isModalOpen && <div><input ref={ref} /> <button onClick={handleCreateNoteBooks}>Create</button></div>}
-      <div><p className="notebook-title">NOTEBooks</p><button onClick={handleAddNoteBooks} className="notebook-addBtn">+</button></div>
+      <div ><p className="notebook-title">NOTEBooks</p><button onClick={handleAddNoteBooks} className="notebook-addBtn">+</button></div>
       {Object.keys(savedNotebooks).map((notebook, id) => <div key={`${notebook}-${id}`} onClick={() => handleOpenNotebook(notebook)} className={`${(notebook === focusedNotebook) && 'focus'}`}><p>{notebook}</p><button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveNoteBooks(e, notebook)} data-id={id}>-</button></div>)}
     </div>
   );

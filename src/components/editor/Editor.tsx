@@ -10,7 +10,7 @@ import Placeholder from './Placeholder'
 
 import { IMemos } from '../../utils/types'
 import { EMPTY_CONTENT } from '../../utils/constants'
-import debounce from '../../utils/debounce'
+
 interface IEditorProps {
   focusedMemoId: number
   memos: IMemos[]
@@ -24,13 +24,11 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
     editor.setEditorState(editorState);
   }, [focusedMemoId, memos])
 
-  const debounceEditMemos = debounce(editMemos)
   const onChange = (editorState: EditorState) => {
     const childJSON = editorState.toJSON().root.children[0] as unknown as { children: [{ text: string, type: string }] }
     const nodes = childJSON.children
     const titleIndex = nodes.findIndex(({ type }: { type: string }) => type === 'text')
-
-    debounceEditMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
+    editMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
   }
 
   return (

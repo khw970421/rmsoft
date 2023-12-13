@@ -8,15 +8,27 @@
 
 .app-container > :nth-child(1){
   width:20%;
+  height:100vh;
   border:1px solid gray
 }
 .app-container > :nth-child(2){
   width:20%;
+  height:100vh;
   border:1px solid gray
 }
 .app-container > :nth-child(3){
   width:60%;
+  height:100vh;
   border:1px solid gray
+}
+
+.notebooks-wrapper , .memos-wrapper{
+  overflow:scroll;
+  scrollbar-width: none;
+}
+
+.notebooks-wrapper::-webkit-scrollbar,.memos-wrapper::-webkit-scrollbar {
+  display: none; 
 }
 
 .notebooks-wrapper > * , .memos-wrapper > * {
@@ -38,6 +50,8 @@
 
 .editor-input {
   min-height: 150px;
+  max-height: calc(100vh - 30px);
+  overflow: scroll;
   resize: none;
   font-size: 15px;
   caret-color: rgb(5, 5, 5);
@@ -46,6 +60,11 @@
   outline: 0;
   padding: 15px 10px;
   caret-color: #444;
+  scrollbar-width: none;
+}
+
+.editor-input::-webkit-scrollbar {
+  display: none; 
 }
 
 .editor-placeholder {

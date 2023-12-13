@@ -28,9 +28,7 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
     const nodes = childJSON.children
     const titleIndex = nodes.findIndex(({ type }: { type: string }) => type === 'text')
 
-    if (nodes[titleIndex]?.text) {
-      debounceEditMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
-    }
+    debounceEditMemos({ title: nodes[titleIndex]?.text, content: JSON.stringify(editorState.toJSON()) })
   }
 
   return (

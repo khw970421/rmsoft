@@ -5,6 +5,7 @@ import EditorContainer from './components/editor/EditorContainer'
 import { ISavedNotebooks } from './utils/types'
 import Memos from './components/memo/Memos'
 import { getItem, setItem } from './utils/localStorage'
+import confirmCheck from './utils/confirmCheck'
 
 function App() {
   const [savedNotebooks, setSavedNotebooks] = useState<ISavedNotebooks>(getItem('notebooks') || {})
@@ -19,7 +20,7 @@ function App() {
     else
       setFocusedMemoId(null)
   }
-  const createNoteBooks = (notebook: string) => {
+  const createNoteBook = (notebook: string) => {
     if (savedNotebooks[notebook]) {
       alert(`The name ${notebook} is alerady taken. Please choose a different name.`)
       return
@@ -31,13 +32,16 @@ function App() {
     })
 
   }
-  const removeNotebooks = (notebook: string) => {
-    setSavedNotebooks((savedNotebooks) => {
-      const newSavedNotebooks = { ...savedNotebooks }
-      delete newSavedNotebooks[notebook]
-      setItem('notebooks', newSavedNotebooks)
-      return newSavedNotebooks
-    })
+  const removeNotebook = (notebook: string) => {
+    const updateSavedNotebooks = () => {
+      setSavedNotebooks((savedNotebooks) => {
+        const newSavedNotebooks = { ...savedNotebooks }
+        delete newSavedNotebooks[notebook]
+        setItem('notebooks', newSavedNotebooks)
+        return newSavedNotebooks
+      })
+    }
+    confirmCheck('Do you want to remove Notebook?', updateSavedNotebooks)
   }
 
   // Memo Events
@@ -51,15 +55,20 @@ function App() {
   }
   const removeMemo = (removeId: number) => {
     const newSavedNotebooks = { ...savedNotebooks }
-    if (focusedNotebook) {
-      const removeNextMemo = newSavedNotebooks[focusedNotebook][removeId + 1]
-      const removePrevMemo = newSavedNotebooks[focusedNotebook][removeId - 1]
-      newSavedNotebooks[focusedNotebook] = newSavedNotebooks[focusedNotebook].filter((_, id) => id !== removeId)
-      setFocusedMemoId(removeNextMemo ? removeId : (removePrevMemo ? removeId - 1 : null))
+
+    const updateSavedMemo = () => {
+      if (focusedNotebook) {
+        const removeNextMemo = newSavedNotebooks[focusedNotebook][removeId + 1]
+        const removePrevMemo = newSavedNotebooks[focusedNotebook][removeId - 1]
+        newSavedNotebooks[focusedNotebook] = newSavedNotebooks[focusedNotebook].filter((_, id) => id !== removeId)
+        setFocusedMemoId(removeNextMemo ? removeId : (removePrevMemo ? removeId - 1 : null))
+      }
+
+      setSavedNotebooks(newSavedNotebooks)
+      setItem('notebooks', newSavedNotebooks)
     }
 
-    setSavedNotebooks(newSavedNotebooks)
-    setItem('notebooks', newSavedNotebooks)
+    confirmCheck('Do you want to remove Memo?', updateSavedMemo)
   }
   const changeFocusedMemoId = (focusedMemoId: number) => {
     setFocusedMemoId(focusedMemoId)
@@ -76,7 +85,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <Notebooks focusedNotebook={focusedNotebook} focusNotebook={focusNotebook} savedNotebooks={savedNotebooks} createNoteBooks={createNoteBooks} removeNotebooks={removeNotebooks} />
+      <Notebooks focusedNotebook={focusedNotebook} focusNotebook={focusNotebook} savedNotebooks={savedNotebooks} createNoteBook={createNoteBook} removeNotebook={removeNotebook} />
       {focusedNotebook &&
         <Memos focusedMemoId={focusedMemoId} focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} changeFocusedMemoId={changeFocusedMemoId} />}
       {focusedMemoId !== null && focusedNotebook && <EditorContainer focusedMemoId={focusedMemoId} memos={savedNotebooks[focusedNotebook]} editMemos={editMemos} />}

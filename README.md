@@ -1,6 +1,6 @@
 # rmsoft assignment
 
-## 실행 방법
+## 💻 실행 방법
 
 - node를 설치합니다. (사용한 node -v 20.10.0)
 
@@ -9,15 +9,15 @@ npm install
 npm run dev
 ```
 
-## 사용한 기술 및 라이브러리
+## ⚒️ 사용한 기술 및 라이브러리
 ![code](https://github.com/khw970421/rmsoft/assets/59253551/b0e661f5-57d9-4717-ba2b-5da5c8896bcc)
 
 
-## Deployment
+## 🚀 Deployment
 
 > https://rmsoft-gilt.vercel.app/
 
-## 고민 했던 부분
+## 📝 고민 했던 부분
 
 ### 1. 메모 목록에서 메모 내용의 첫번째 줄이 메모의 제목으로 표시 기능의 타입스크립트 any 수정하기
 [PR Link](https://github.com/khw970421/rmsoft/pull/9)
@@ -61,7 +61,7 @@ console.log(editorState.toJSON().root)
 
 
 
-## 기능 구현 사항
+## 📔 기능 구현 사항
 
 - [x] 최소 가로 길이는 '1400px' 이고, 최대 가로 길이는 '1920px' 입니다.
 

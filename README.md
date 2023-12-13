@@ -10,8 +10,8 @@ npm run dev
 ```
 
 ## 사용한 기술 및 라이브러리
+![code](https://github.com/khw970421/rmsoft/assets/59253551/b0e661f5-57d9-4717-ba2b-5da5c8896bcc)
 
-![code](https://github.com/khw970421/rmsoft/assets/59253551/2cc0f70c-bea6-4d93-87da-5117db265ee7)
 
 ## Deployment
 
@@ -29,8 +29,16 @@ npm run dev
 - `EditorState`에 `toJSON`을 처리하면 `SerializedEditorState`로 바뀌게 된다.
 
 * `SerializedEditorState` 타입의 root로 접근하게 되면 `SerializedRootNode<T>` 타입을 얻는다.
-* `SerializedRootNode<T>` 타입은 type과 version을 갖고 있다고 적혀있다.  
+* `SerializedRootNode<T>` 타입은 type과 version을 갖고 있다고 적혀있다.
+<img width="202" alt="image" src="https://github.com/khw970421/rmsoft/assets/59253551/b383a493-7407-470e-8c91-b4fc6069c36e">
+
   하지만 실제 결과 값은 기능구현을 위한 다른 프로퍼티도 포함되어 있다.
+```js
+console.log(editorState.toJSON().root)
+```
+<img width="782" alt="image" src="https://github.com/khw970421/rmsoft/assets/59253551/e34652aa-5b52-4dab-bc70-f4743ed18636">
+
+
 * any 타입을 사용하는 것을 고치기 위해 `as unknown as type` 처리를 하여 any 타입의 사용을 지양했다.
 
 ![new](https://github.com/khw970421/rmsoft/assets/59253551/6813d67b-ac17-42b5-8576-11ff725f6cd3)
@@ -41,12 +49,17 @@ npm run dev
 
 ![q](https://github.com/khw970421/rmsoft/assets/59253551/6467404b-e84d-409d-9ab9-ec42cdafc7c3)
 
-### 3. 텍스트 입력 후 일정 시간 후에 입력 사항이 저장
+### 3. 텍스트 입력시마다 setState 하기 vs 텍스트 입력이 완료되고 일정 시간 후 setState 하기  
+(텍스트 입력시마다 setState 하기 선택)
+#### 텍스트 입력이 완료되고 일정 시간 후 setState 하기
+- 장점 : 즉시 입력사항이 저장되는 것은 값이 변경될때마다 이로 인한 리렌더링이 많이 발생하는 것을 막음
+- 단점 : 텍스트 입력하는 시기에 관련된 메모를 추가하거나 삭제하는 경우 일정 시간 후에 입력 사항이 저장되기 전에 먼저 추가나 삭제가 발생하여 문제점이 발생 
 
-- 즉시 입력사항이 저장되는 것은 값이 변경되는 것으로 인한 리렌더링이 불필요하게 많이 발생한다고 생각하여 이를 막기 위해서는 텍스트 입력 시 **디바운스**처리가 필요하다고 생각하여 디바운스 방식을 구현
+#### 텍스트 입력시마다 setState 하기
+* 장점 : 텍스트가 수정될때마다 리렌더링이 되어 텍스트를 수정하다가 다른 이벤트를 처리해도 순차적으로 동작한다.
+* 단점 : 불필요한 리렌더링이 많이 발생 
 
-![debounce](https://github.com/khw970421/rmsoft/assets/59253551/0de93cbf-bdae-4415-951d-8b49eb901ffa)
-![123](https://github.com/khw970421/rmsoft/assets/59253551/a6b31533-61ec-4825-bf4b-8ca047a7ee0b)
+
 
 ## 기능 구현 사항
 

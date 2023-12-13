@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import './App.css'
+import styled from 'styled-components'
+
 import Notebooks from './components/notebooks/Notebooks'
 import EditorContainer from './components/editor/EditorContainer'
-import { ISavedNotebooks } from './utils/types'
 import Memos from './components/memo/Memos'
+import { ISavedNotebooks } from './utils/types'
 import { getItem, setItem } from './utils/localStorage'
 import confirmCheck from './utils/confirmCheck'
 
@@ -84,13 +85,37 @@ function App() {
   }
 
   return (
-    <div className="app-container">
+    <Wrapper className="app-container">
       <Notebooks focusedNotebook={focusedNotebook} focusNotebook={focusNotebook} savedNotebooks={savedNotebooks} createNoteBook={createNoteBook} removeNotebook={removeNotebook} />
       {focusedNotebook &&
         <Memos focusedMemoId={focusedMemoId} focusedNotebook={focusedNotebook} memos={savedNotebooks[focusedNotebook]} addMemo={addMemo} removeMemo={removeMemo} changeFocusedMemoId={changeFocusedMemoId} />}
       {focusedMemoId !== null && focusedNotebook && <EditorContainer focusedMemoId={focusedMemoId} memos={savedNotebooks[focusedNotebook]} editMemos={editMemos} />}
-    </div>
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+  display:flex;
+  justify-content: flex-start;
+  width:100%;
+  min-width:1400px;
+  max-width:1920px;
+
+  > :nth-child(1){
+    width:20%;
+    height:100vh;
+    border:1px solid gray
+  }
+  > :nth-child(2){
+    width:20%;
+    height:100vh;
+    border:1px solid gray
+  }
+  > :nth-child(3){
+    width:60%;
+    height:100vh;
+    border:1px solid gray
+  }
+`
 
 export default App

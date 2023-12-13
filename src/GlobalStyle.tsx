@@ -1,3 +1,6 @@
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
 * {
   margin:0;
   box-sizing:border-box;
@@ -25,3 +28,6 @@ button {
 .focus{
   background-color: #e2e2e2;
 }
+`;
+
+export default GlobalStyle;

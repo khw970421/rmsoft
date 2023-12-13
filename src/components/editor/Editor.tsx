@@ -1,13 +1,15 @@
 import { useEffect } from 'react'
+import styled from 'styled-components'
 import { PlainTextPlugin } from '@lexical/react/LexicalPlainTextPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { EditorState } from 'lexical'
 import OnChangePlugin from './OnChangePlugin'
 import Placeholder from './Placeholder'
+
 import { IMemos } from '../../utils/types'
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { EMPTY_CONTENT } from '../../utils/constants'
-import { EditorState } from 'lexical'
 import debounce from '../../utils/debounce'
 interface IEditorProps {
   focusedMemoId: number
@@ -32,14 +34,48 @@ export default function Editor({ focusedMemoId, memos, editMemos }: IEditorProps
   }
 
   return (
-    <div className="editor-container">
+    <Wrapper>
       <PlainTextPlugin
-        contentEditable={<ContentEditable className="editor-input" />}
+        contentEditable={<ContentEditableWrapper />}
         placeholder={<Placeholder />}
         ErrorBoundary={LexicalErrorBoundary}
       />
       <OnChangePlugin onChange={onChange} />
-    </div>
+    </Wrapper>
   )
 }
+
+const Wrapper = styled.div`
+  background: #fff;
+  border-radius: 2px;
+  color: #000;
+  position: relative;
+  line-height: 20px;
+  font-weight: 400;
+  text-align: left;
+  padding: 15px 10px;
+
+  & ::-webkit-scrollbar {
+    display: none; 
+  }
+`
+
+const ContentEditableWrapper = styled(ContentEditable)`
+  min-height: 150px;
+  max-height: calc(100vh - 30px);
+  overflow: scroll;
+  resize: none;
+  font-size: 15px;
+  caret-color: rgb(5, 5, 5);
+  position: relative;
+  tab-size: 1;
+  outline: 0;
+  padding: 15px 10px;
+  caret-color: #444;
+  scrollbar-width: none;
+
+  & ::-webkit-scrollbar {
+  display: none; 
+  }
+`
 

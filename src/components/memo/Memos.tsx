@@ -1,5 +1,6 @@
-import { IMemos } from '../../utils/types';
+import styled from 'styled-components';
 import Memo from './Memo';
+import { IMemos } from '../../utils/types';
 
 interface IMemosProps {
   focusedMemoId: number | null
@@ -24,8 +25,8 @@ const Memos = ({ focusedMemoId, focusedNotebook, memos, addMemo, removeMemo, cha
     removeMemo(removeId)
   }
   return (
-    <div className="memos-wrapper">
-      <div><p className='memo-title'>{focusedNotebook}</p><button onClick={handleAddMemo} className='memo-addBtn'>New Note</button></div>
+    <Wrapper>
+      <div><MemoTitle>{focusedNotebook}</MemoTitle><MemoAddBtn onClick={handleAddMemo}>New Note</MemoAddBtn></div>
       {memos && memos.map(({ title }, id) =>
         <Memo
           title={title || undefined}
@@ -33,8 +34,33 @@ const Memos = ({ focusedMemoId, focusedNotebook, memos, addMemo, removeMemo, cha
           handleChangeFocusedMemoId={(e: React.MouseEvent<HTMLDivElement>) => handleChangeFocusedMemoId(e, id)}
           handleRemoveMemo={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveMemo(e, id)}
           className={`${(focusedMemoId === id) && 'focus'}`} />)}
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  overflow:scroll;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar{
+    display:none;
+  }
+
+  > * {
+    padding: 1rem;
+    display:flex;
+    justify-content: space-between;
+  }
+`
+
+const MemoTitle = styled.p`
+  font-weight:bold
+`
+
+const MemoAddBtn = styled.button`
+  background-color:#0c70f2;
+  color:white;
+  border-radius: 0.2rem;
+`
 
 export default Memos;

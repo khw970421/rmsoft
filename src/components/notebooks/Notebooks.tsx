@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import styled from "styled-components";
 import { ISavedNotebooks } from "../../utils/types";
 
 interface INotebooksProps {
@@ -36,12 +37,37 @@ const Notebooks = ({ focusedNotebook, savedNotebooks, focusNotebook, createNoteB
   }
 
   return (
-    <div className="notebooks-wrapper">
+    <Wrapper>
       {isModalOpen && <div><input ref={ref} /> <button onClick={handleCreateNoteBook}>Create</button></div>}
-      <div ><p className="notebook-title">NOTEBooks</p><button onClick={handleAddNoteBooks} className="notebook-addBtn">+</button></div>
+      <div ><NoteBookTitle>NOTEBooks</NoteBookTitle><NoteBookAddBtn onClick={handleAddNoteBooks}>+</NoteBookAddBtn></div>
       {Object.keys(savedNotebooks).map((notebook, id) => <div key={`${notebook}-${id}`} onClick={() => handleOpenNotebook(notebook)} className={`${(notebook === focusedNotebook) && 'focus'}`}><p>{notebook}</p><button onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleRemoveNoteBook(e, notebook)} data-id={id}>-</button></div>)}
-    </div>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  overflow:scroll;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar{
+    display:none;
+  }
+
+  > * {
+    padding: 1rem;
+    display:flex;
+    justify-content: space-between;
+  }
+`
+
+const NoteBookTitle = styled.p`
+  font-weight:bold;
+  color:#0c70f2;
+`
+
+const NoteBookAddBtn = styled.button`
+  font-weight:bold;
+  color:#0c70f2
+`
 
 export default Notebooks;

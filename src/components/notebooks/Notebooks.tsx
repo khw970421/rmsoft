@@ -16,8 +16,11 @@ const Notebooks = ({ focusedNotebook, savedNotebooks, focusNotebook, createNoteB
     setIsModalOpen(true)
   }
   const handleCreateNoteBooks = () => {
-    if (ref.current && ref.current?.value !== undefined) {
+    if (ref.current && ref.current?.value.trim() !== '') {
       createNoteBooks(ref.current?.value)
+    }
+    else {
+      alert('Fill Input Text')
     }
     setIsModalOpen(false)
   }
